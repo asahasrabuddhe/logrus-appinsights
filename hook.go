@@ -52,7 +52,7 @@ func New(name string, conf Config) (*AppInsightsHook, error) {
 	}
 	telemetryClient := appinsights.NewTelemetryClientFromConfig(telemetryConf)
 	if name != "" {
-		telemetryClient.Context().Cloud().SetRoleName(name)
+		telemetryClient.Context().Tags.Cloud().SetRole(name)
 	}
 	return &AppInsightsHook{
 		client:       telemetryClient,
@@ -72,7 +72,7 @@ func NewWithAppInsightsConfig(name string, conf *appinsights.TelemetryConfigurat
 	}
 	telemetryClient := appinsights.NewTelemetryClientFromConfig(conf)
 	if name != "" {
-		telemetryClient.Context().Cloud().SetRoleName(name)
+		telemetryClient.Context().Tags.Cloud().SetRole(name)
 	}
 	return &AppInsightsHook{
 		client:       telemetryClient,
@@ -123,7 +123,7 @@ func (hook *AppInsightsHook) fire(entry *logrus.Entry) error {
 	if err != nil {
 		return err
 	}
-	hook.client.TrackTraceTelemetry(trace)
+	hook.client.Track(trace)
 	return nil
 }
 
@@ -148,10 +148,10 @@ func (hook *AppInsightsHook) buildTrace(entry *logrus.Entry) (*appinsights.Trace
 			v = formatData(v) // use default formatter
 		}
 		vStr := fmt.Sprintf("%v", v)
-		trace.SetProperty(k, vStr)
+		trace.Properties[k] = vStr
 	}
-	trace.SetProperty("source_level", entry.Level.String())
-	trace.SetProperty("source_timestamp", entry.Time.String())
+	trace.Properties["source_level"] = entry.Level.String()
+	trace.Properties["source_timestamp"] = entry.Time.String()
 	return trace, nil
 }
 
