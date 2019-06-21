@@ -3,6 +3,7 @@ package logrus_appinsights
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/Microsoft/ApplicationInsights-Go/appinsights/contracts"
 
 	"github.com/Microsoft/ApplicationInsights-Go/appinsights"
 	"github.com/sirupsen/logrus"
@@ -16,7 +17,7 @@ var defaultLevels = []logrus.Level{
 	logrus.InfoLevel,
 }
 
-var levelMap = map[logrus.Level]appinsights.SeverityLevel{
+var levelMap = map[logrus.Level]contracts.SeverityLevel{
 	logrus.PanicLevel: appinsights.Critical,
 	logrus.FatalLevel: appinsights.Critical,
 	logrus.ErrorLevel: appinsights.Error,
