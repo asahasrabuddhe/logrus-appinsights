@@ -7,5 +7,5 @@ require (
 	github.com/Microsoft/ApplicationInsights-Go v0.4.2
 	github.com/satori/go.uuid v1.2.0 // indirect
 	github.com/sirupsen/logrus v1.4.2
-	github.com/stretchr/testify v1.3.0
+	github.com/stretchr/testify v1.7.0
 )
